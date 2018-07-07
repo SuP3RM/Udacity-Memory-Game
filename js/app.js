@@ -1,9 +1,11 @@
 /*
- * Create a list that holds all of your cards + variables
+ * Create a list that holds all of your cards and variables
  */
 
-let deck = document.querySelector(".deck");
-let allCards = deck.querySelectorAll("li.card");
+let deck = document.querySelector('.deck');
+let allCards = deck.querySelectorAll('li.card');
+
+let faceUpCards = [];
 
 let restart = document.getElementById('restart-btn');
 
@@ -41,21 +43,30 @@ let shuffle = function shuffle(array) {
  */
 
 //Display card when clicked
- allCards.forEach(function(card){
+allCards.forEach(function(card){
    card.addEventListener('click', function(){
      card.classList.add('open', 'show');
+     faceUpCards.push(card);
+     console.log('face up cards: ', faceUpCards.length);
+     // inspired and credit to Mike Wales https://www.youtube.com/watch?v=_rUH-sEs68Y&feature=share
+     if (faceUpCards.length === 2) {
+       setTimeout(function() {
+         faceUpCards.forEach(function(card) {
+           card.classList.remove('open', 'show');
+         });
+
+         faceUpCards = [];
+       }, 1000);
+      }
    });
  });
 
+
+//restart game here
 function resetGame() {
   //face down allCards clicked
   allCards.forEach(function(card){
     card.classList.remove('open', 'show');
   });
-
 }
-
-//shuffle cards within restarting game
-
-
- restart.addEventListener('click', resetGame);
+restart.addEventListener('click', resetGame);
