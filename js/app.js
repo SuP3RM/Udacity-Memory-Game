@@ -2,6 +2,15 @@
  * Create a list that holds all of your cards and variables
  */
 
+let cards = ['fa fa-diamond', 'fa fa-diamond',
+            'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
+            'fa fa-anchor', 'fa fa-anchor',
+            'fa fa-bolt', 'fa fa-bolt',
+            'fa fa-cube', 'fa fa-cube',
+            'fa fa-leaf', 'fa fa-leaf',
+            'fa fa-bomb', 'fa fa-bomb',
+            'fa fa-leaf', 'fa fa-leaf'];
+
 let deck = document.querySelector('.deck');
 let allCards = deck.querySelectorAll('li.card');
 
@@ -48,7 +57,12 @@ allCards.forEach(function(card){
      card.classList.add('open', 'show');
      faceUpCards.push(card);
      console.log('face up cards: ', faceUpCards.length);
+
+     let matchedCards = faceUpCards[0].dataset.card;
+     console.log(matchedCards);
+
      // inspired and credit to Mike Wales https://www.youtube.com/watch?v=_rUH-sEs68Y&feature=share
+     // cardsFaceUp if not match
      if (faceUpCards.length === 2) {
        setTimeout(function() {
          faceUpCards.forEach(function(card) {
@@ -56,7 +70,7 @@ allCards.forEach(function(card){
          });
 
          faceUpCards = [];
-       }, 1000);
+       }, 500);
       }
    });
  });
