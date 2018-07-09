@@ -1,22 +1,104 @@
+
+// Credit to Ryan Waite and his video - https://github.com/ryanwaite28/script-store/blob/master/js/stop-watch.js
+//clock/timer
+const StopWatch = function StopWatch() {
+  const self = this;
+
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
+
+  let timer;
+  let on = false;
+
+  self.startTimer = function(callback) {
+    if(on === true) { return; }
+    on = true;
+    timer = setInterval(function(){
+      seconds++;
+      if(seconds === 60) {
+        seconds = 0;
+        minutes++;
+        if(minutes === 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
+      if(callback && callback.constructor === Function) {
+        callback();
+      }
+    }, 1000);
+    console.log('timer started');
+  }
+
+  self.stopTimer = function() {
+    clearInterval(timer);
+    on = false;
+    console.log('timer ended: ', self.getTimeString());
+  }
+
+  self.resetTimer = function() {
+    self.stopTimer();
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+  }
+
+  self.getTimeString = function() {
+    let hour = hours > 9 ? String(hours) : '0' + String(hours);
+    let minute = minutes > 9 ? String(minutes) : '0' + String(minutes);
+    let second = seconds > 9 ? String(seconds) : '0' + String(seconds);
+    let timeString = hour + ':' + minute + ':' + second;
+    return timeString;
+  }
+
+  self.getHours = function() {
+    return hours;
+  }
+
+  self.getMinutes = function() {
+    return minutes;
+  }
+
+  self.getSeconds = function() {
+    return seconds;
+  }
+}
+
+
 /*
  * Create a list that holds all of your cards and variables
  */
 
-let cards = ['fa fa-diamond', 'fa fa-diamond',
-            'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
-            'fa fa-anchor', 'fa fa-anchor',
-            'fa fa-bolt', 'fa fa-bolt',
-            'fa fa-cube', 'fa fa-cube',
-            'fa fa-leaf', 'fa fa-leaf',
-            'fa fa-bomb', 'fa fa-bomb',
-            'fa fa-leaf', 'fa fa-leaf'];
+ var cards = [
+   'fa-diamond',
+   'fa-diamond',
+   'fa-paper-plane-o',
+   'fa-paper-plane-o',
+   'fa-anchor',
+   'fa-anchor',
+   'fa-bolt',
+   'fa-bolt',
+   'fa-cube',
+   'fa-cube',
+   'fa-bomb',
+   'fa-bomb',
+   'fa-bicycle',
+   'fa-bicycle',
+   'fa-leaf',
+   'fa-leaf'
+];
 
-let deck = document.querySelector('.deck');
+
+let watch = new StopWatch();
+
+let deck = document.querySelector(".deck");
 let allCards = deck.querySelectorAll('li.card');
 
-let faceUpCards = [];
-
 let restart = document.getElementById('restart-btn');
+let timerText = document.getElementById('timer');
+
+let iClick = false;
 
 /*
  * Display the cards on the page
@@ -25,8 +107,9 @@ let restart = document.getElementById('restart-btn');
  *   - add each card's HTML to the page
  */
 
+
 // Shuffle function from http://stackoverflow.com/a/2450976
-let shuffle = function shuffle(array) {
+function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
@@ -40,6 +123,25 @@ let shuffle = function shuffle(array) {
     return array;
 }
 
+
+/*
+// Used like so
+var arr = [2, 11, 37, 42];
+arr = shuffle(arr);
+console.log(arr);
+*/
+
+//Timer start
+function startTimer() {
+  watch.startTimer(function(){
+    timerText.innerText = watch.getTimeString();
+  });
+}
+//Timer stop
+function stopTimer() {
+  watch.stopTimer();
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -51,36 +153,68 @@ let shuffle = function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-//Display card when clicked
-allCards.forEach(function(card){
-   card.addEventListener('click', function(){
-     card.classList.add('open', 'show');
-     faceUpCards.push(card);
-     console.log('face up cards: ', faceUpCards.length);
+ let lastFlipped = null;
+ let matchedCards = [];
+ let pause = false;
 
-     let matchedCards = faceUpCards[0].dataset.card;
-     console.log(matchedCards);
+ function activeGame() {
+   allCards.forEach(function(card) {
+     card.addEventListener('click', function(){
+       if (iClick === false) {
+         iClick = true;
+         startTimer();
+       }
 
-     // inspired and credit to Mike Wales https://www.youtube.com/watch?v=_rUH-sEs68Y&feature=share
-     // cardsFaceUp if not match
-     if (faceUpCards.length === 2) {
-       setTimeout(function() {
-         faceUpCards.forEach(function(card) {
-           card.classList.remove('open', 'show');
-         });
+       if (pause === true) {return}
+       if (lastFlipped === card) {return}
+       if (matchedCards.includes(card)) {return}
 
-         faceUpCards = [];
-       }, 500);
-      }
+       card.classList.add('open', 'show');
+
+       if (lastFlipped !== null) {
+         let lastFlippedClass = lastFlipped.children[0].className;
+         let cardClass = card.children[0].className;
+         if (lastFlippedClass === cardClass) {
+           // If cards macth
+           console.log('macth!');
+           matchedCards.push(card);
+           matchedCards.push(lastFlipped);
+           lastFlipped = null;
+         }
+         else {
+           // If cards macth
+           console.log('no macth...');
+           pause = true;
+           setTimeout(function(){
+             card.classList.remove('open', 'show');
+             lastFlipped.classList.remove('open', 'show');
+             lastFlipped = null;
+             pause = false;
+           }, 500);
+         }
+       } else {
+           lastFlipped = card;
+       }
+     });
    });
- });
+ }
 
+ function resetGame() {
+   allCards.forEach(function(card){
+     card.classList.remove('open', 'show');
+     matchedCards.pop(card);
+   });
 
-//restart game here
-function resetGame() {
-  //face down allCards clicked
-  allCards.forEach(function(card){
-    card.classList.remove('open', 'show');
-  });
-}
-restart.addEventListener('click', resetGame);
+   iClick = false;
+
+   //shuffle cards
+
+   stopTimer();
+   watch.resetTimer();
+   timerText.innerText = watch.getTimeString();
+
+ }
+ restart.addEventListener('click', resetGame);
+
+ //Start the game
+ activeGame();
