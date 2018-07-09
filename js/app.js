@@ -65,7 +65,6 @@ const StopWatch = function StopWatch() {
   }
 }
 
-
 /*
  * Create a list that holds all of your cards and variables
  */
@@ -87,6 +86,15 @@ let watch = new StopWatch();
 // https://codepen.io/lilaznbliss/pen/BVgLPe
 
 let deck = document.querySelector(".deck");
+let allCards = deck.querySelectorAll('li.card');
+
+let moves = 0;
+
+let restart = document.getElementById('restart-btn');
+let timerText = document.getElementById('timer');
+
+let iClick = false;
+//shuffle function
 function shuffleDeck() {
   const cardsToShuffle = Array.from(document.querySelectorAll('.deck li'));
   const shuffledCards = shuffle(cardsToShuffle);
@@ -96,12 +104,12 @@ function shuffleDeck() {
 }
 shuffleDeck();
 
-let allCards = deck.querySelectorAll('li.card');
+function addMoves() {
+  moves++;
+  const movesText = document.querySelector('.moves');
+  movesText.innerHTML = moves;
+}
 
-let restart = document.getElementById('restart-btn');
-let timerText = document.getElementById('timer');
-
-let iClick = false;
 
 /*
  * Display the cards on the page
@@ -180,6 +188,7 @@ function stopTimer() {
            matchedCards.push(card);
            matchedCards.push(lastFlipped);
            lastFlipped = null;
+           addMoves();
          }
          else {
            // If cards macth
@@ -189,6 +198,7 @@ function stopTimer() {
              card.classList.remove('open', 'show');
              lastFlipped.classList.remove('open', 'show');
              lastFlipped = null;
+             addMoves();
              pause = false;
            }, 500);
          }
