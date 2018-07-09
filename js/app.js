@@ -71,28 +71,27 @@ const StopWatch = function StopWatch() {
  */
 
  var cards = [
-   'fa-diamond',
-   'fa-diamond',
-   'fa-paper-plane-o',
-   'fa-paper-plane-o',
-   'fa-anchor',
-   'fa-anchor',
-   'fa-bolt',
-   'fa-bolt',
-   'fa-cube',
-   'fa-cube',
-   'fa-bomb',
-   'fa-bomb',
-   'fa-bicycle',
-   'fa-bicycle',
-   'fa-leaf',
-   'fa-leaf'
+   'fa-diamond', 'fa-diamond',
+   'fa-paper-plane-o', 'fa-paper-plane-o',
+   'fa-anchor', 'fa-anchor',
+   'fa-bolt', 'fa-bolt',
+   'fa-cube', 'fa-cube',
+   'fa-bomb', 'fa-bomb',
+   'fa-bicycle', 'fa-bicycle',
+   'fa-leaf', 'fa-leaf'
 ];
-
 
 let watch = new StopWatch();
 
-let deck = document.querySelector(".deck");
+https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
+https://codepen.io/lilaznbliss/pen/BVgLPe
+
+shuffle(cards);
+
+const deck = document.querySelector(".deck");
+for (const card of cards) {
+  deck.appendChild(card);
+}
 let allCards = deck.querySelectorAll('li.card');
 
 let restart = document.getElementById('restart-btn');
@@ -107,8 +106,13 @@ let iClick = false;
  *   - add each card's HTML to the page
  */
 
-
 // Shuffle function from http://stackoverflow.com/a/2450976
+/*
+// Used like so
+var arr = [2, 11, 37, 42];
+arr = shuffle(arr);
+console.log(arr);
+*/
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -122,14 +126,6 @@ function shuffle(array) {
 
     return array;
 }
-
-
-/*
-// Used like so
-var arr = [2, 11, 37, 42];
-arr = shuffle(arr);
-console.log(arr);
-*/
 
 //Timer start
 function startTimer() {
@@ -208,6 +204,7 @@ function stopTimer() {
    iClick = false;
 
    //shuffle cards
+   shuffle(cards);
 
    stopTimer();
    watch.resetTimer();
