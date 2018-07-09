@@ -83,15 +83,19 @@ const StopWatch = function StopWatch() {
 
 let watch = new StopWatch();
 
-https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
-https://codepen.io/lilaznbliss/pen/BVgLPe
+// https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
+// https://codepen.io/lilaznbliss/pen/BVgLPe
 
-shuffle(cards);
-
-const deck = document.querySelector(".deck");
-for (const card of cards) {
-  deck.appendChild(card);
+let deck = document.querySelector(".deck");
+function shuffleDeck() {
+  const cardsToShuffle = Array.from(document.querySelectorAll('.deck li'));
+  const shuffledCards = shuffle(cardsToShuffle);
+  for (card of shuffledCards) {
+    deck.appendChild(card);
+  }
 }
+shuffleDeck();
+
 let allCards = deck.querySelectorAll('li.card');
 
 let restart = document.getElementById('restart-btn');
@@ -204,7 +208,7 @@ function stopTimer() {
    iClick = false;
 
    //shuffle cards
-   shuffle(cards);
+   shuffleDeck();
 
    stopTimer();
    watch.resetTimer();
