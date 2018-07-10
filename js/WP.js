@@ -6,3 +6,25 @@ function shuffleDeck() {
   }
 }
 shuffleDeck();
+
+function checkScore() {
+  if (moves === 16 || moves === 24) {
+    removeStar();
+  }
+}
+
+function hideStar() {
+  const starList = document.querySelectorAll('.stars li');
+  for (star of starList) {
+    if (star.style.display !== 'none') {
+      star.style.display = 'none';
+      break;
+    }
+  }
+}
+hideStar();
+hideStar();
+
+function toggleOverlay() {
+  const overLay = document.querySelector(.overl)
+}

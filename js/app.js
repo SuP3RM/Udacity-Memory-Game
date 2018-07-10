@@ -94,6 +94,7 @@ let restart = document.getElementById('restart-btn');
 let timerText = document.getElementById('timer');
 
 let iClick = false;
+
 //shuffle function
 function shuffleDeck() {
   const cardsToShuffle = Array.from(document.querySelectorAll('.deck li'));
@@ -104,10 +105,28 @@ function shuffleDeck() {
 }
 shuffleDeck();
 
+//add moves
 function addMoves() {
   moves++;
   const movesText = document.querySelector('.moves');
   movesText.innerHTML = moves;
+}
+
+// getting stars
+function checkScore() {
+  if (moves === 16 || moves === 24) {
+    hideStar();
+  }
+}
+  //Removing stars/hiding
+function hideStar() {
+  const starList = document.querySelectorAll('.stars li');
+  for (star of starList) {
+    if (star.style.display !== 'none') {
+      star.style.display = 'none';
+      break;
+    }
+  }
 }
 
 
@@ -189,6 +208,7 @@ function stopTimer() {
            matchedCards.push(lastFlipped);
            lastFlipped = null;
            addMoves();
+           checkScore();
          }
          else {
            // If cards macth
@@ -199,6 +219,7 @@ function stopTimer() {
              lastFlipped.classList.remove('open', 'show');
              lastFlipped = null;
              addMoves();
+             checkScore();
              pause = false;
            }, 500);
          }
