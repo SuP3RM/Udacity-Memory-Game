@@ -1,3 +1,5 @@
+// https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
+// https://codepen.io/lilaznbliss/pen/BVgLPe
 
 // Credit to Ryan Waite and his video - https://github.com/ryanwaite28/script-store/blob/master/js/stop-watch.js
 //clock/timer
@@ -12,19 +14,21 @@ const StopWatch = function StopWatch() {
   let on = false;
 
   self.startTimer = function(callback) {
-    if(on === true) { return; }
+    if (on === true) {
+      return;
+    }
     on = true;
-    timer = setInterval(function(){
+    timer = setInterval(function() {
       seconds++;
-      if(seconds === 60) {
+      if (seconds === 60) {
         seconds = 0;
         minutes++;
-        if(minutes === 60) {
+        if (minutes === 60) {
           minutes = 0;
           hours++;
         }
       }
-      if(callback && callback.constructor === Function) {
+      if (callback && callback.constructor === Function) {
         callback();
       }
     }, 1000);
@@ -69,21 +73,18 @@ const StopWatch = function StopWatch() {
  * Create a list that holds all of your cards and variables
  */
 
- var cards = [
-   'fa-diamond', 'fa-diamond',
-   'fa-paper-plane-o', 'fa-paper-plane-o',
-   'fa-anchor', 'fa-anchor',
-   'fa-bolt', 'fa-bolt',
-   'fa-cube', 'fa-cube',
-   'fa-bomb', 'fa-bomb',
-   'fa-bicycle', 'fa-bicycle',
-   'fa-leaf', 'fa-leaf'
+var cards = [
+  'fa-diamond', 'fa-diamond',
+  'fa-paper-plane-o', 'fa-paper-plane-o',
+  'fa-anchor', 'fa-anchor',
+  'fa-bolt', 'fa-bolt',
+  'fa-cube', 'fa-cube',
+  'fa-bomb', 'fa-bomb',
+  'fa-bicycle', 'fa-bicycle',
+  'fa-leaf', 'fa-leaf'
 ];
 
 let watch = new StopWatch();
-
-// https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
-// https://codepen.io/lilaznbliss/pen/BVgLPe
 
 let deck = document.querySelector(".deck");
 let allCards = deck.querySelectorAll('li.card');
@@ -95,6 +96,16 @@ let timerText = document.getElementById('timer');
 
 let iClick = false;
 
+/////// Test /////////
+time = 121;
+moves = 16;
+checkScore();
+stopTimer();
+timerText.innerText = watch.getTimeString();
+writeModalStats();
+toggleModal();
+////////////
+
 //shuffle function
 function shuffleDeck() {
   const cardsToShuffle = Array.from(document.querySelectorAll('.deck li'));
@@ -105,12 +116,13 @@ function shuffleDeck() {
 }
 shuffleDeck();
 
-//add moves
+//add moves function
 function addMoves() {
   moves++;
   let movesText = document.querySelector('.moves');
   movesText.innerHTML = moves;
 }
+// restart moves function
 function rstMoves() {
   moves = 0;
   let movesText = document.querySelector('.moves');
@@ -123,7 +135,7 @@ function checkScore() {
     hideStar();
   }
 }
-  //Removing stars/hiding
+//Removing stars/hiding
 function hideStar() {
   let starList = document.querySelectorAll('.stars li');
   for (star of starList) {
@@ -133,6 +145,7 @@ function hideStar() {
     }
   }
 }
+// undo hiding stars after restarting game
 function undoHideStar() {
   let starList = document.querySelectorAll('.stars li');
   for (star of starList) {
@@ -141,7 +154,6 @@ function undoHideStar() {
     }
   }
 }
-
 
 /*
  * Display the cards on the page
@@ -158,22 +170,23 @@ arr = shuffle(arr);
 console.log(arr);
 */
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length,
+    temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
 
-    return array;
+  return array;
 }
 
 //Timer start
 function startTimer() {
-  watch.startTimer(function(){
+  watch.startTimer(function() {
     timerText.innerText = watch.getTimeString();
   });
 }
@@ -182,6 +195,18 @@ function stopTimer() {
   watch.stopTimer();
 }
 
+function toggleModal() {
+  let modal = document.querySelector('.modal__background');
+  modal.classList.toggle('hide');
+}
+
+///adding data to modal Stats
+function writeModalStats() {
+  const timeStat = document.querySelector('.modal_time');
+  const clockTime = document.querySelector('#timer').innerHTML;
+
+  timeStat.innerHTML = 'Time = ${timer}';
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -193,77 +218,82 @@ function stopTimer() {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
- let lastFlipped = null;
- let matchedCards = [];
- let pause = false;
+let lastFlipped = null;
+let matchedCards = [];
+let pause = false;
 
- function activeGame() {
-   allCards.forEach(function(card) {
-     card.addEventListener('click', function(){
-       if (iClick === false) {
-         iClick = true;
-         startTimer();
-       }
+function activeGame() {
+  allCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      if (iClick === false) {
+        iClick = true;
+        startTimer();
+      }
 
-       if (pause === true) {return}
-       if (lastFlipped === card) {return}
-       if (matchedCards.includes(card)) {return}
+      if (pause === true) {
+        return
+      }
+      if (lastFlipped === card) {
+        return
+      }
+      if (matchedCards.includes(card)) {
+        return
+      }
 
-       card.classList.add('open', 'show');
+      card.classList.add('open', 'show');
 
-       if (lastFlipped !== null) {
-         let lastFlippedClass = lastFlipped.children[0].className;
-         let cardClass = card.children[0].className;
-         if (lastFlippedClass === cardClass) {
-           // If cards macth
-           console.log('macth!');
-           matchedCards.push(card);
-           matchedCards.push(lastFlipped);
-           lastFlipped = null;
-           addMoves();
-           checkScore();
-         }
-         else {
-           // If cards macth
-           console.log('no macth...');
-           pause = true;
-           setTimeout(function(){
-             card.classList.remove('open', 'show');
-             lastFlipped.classList.remove('open', 'show');
-             lastFlipped = null;
-             addMoves();
-             checkScore();
-             pause = false;
-           }, 500);
-         }
-       } else {
-           lastFlipped = card;
-       }
-     });
-   });
- }
+      if (lastFlipped !== null) {
+        let lastFlippedClass = lastFlipped.children[0].className;
+        let cardClass = card.children[0].className;
+        if (lastFlippedClass === cardClass) {
+          // If cards macth
+          console.log('macth!');
+          matchedCards.push(card);
+          matchedCards.push(lastFlipped);
+          lastFlipped = null;
+          addMoves();
+          checkScore();
+        } else {
+          // If cards macth
+          console.log('no macth...');
+          pause = true;
+          setTimeout(function() {
+            card.classList.remove('open', 'show');
+            lastFlipped.classList.remove('open', 'show');
+            lastFlipped = null;
+            addMoves();
+            checkScore();
+            pause = false;
+          }, 500);
+        }
+      } else {
+        lastFlipped = card;
+      }
+    });
+  });
+}
 
- function resetGame() {
-   allCards.forEach(function(card){
-     card.classList.remove('open', 'show');
-     matchedCards.pop(card);
-     undoHideStar();
-   });
+function resetGame() {
+  allCards.forEach(function(card) {
+    card.classList.remove('open', 'show');
+    matchedCards.pop(card);
+    undoHideStar();
+  });
 
-   iClick = false;
+  iClick = false;
 
-   //shuffle cards
-   shuffleDeck();
-   //reset moves
-   rstMoves();
+  //shuffle cards
+  shuffleDeck();
+  //reset moves
+  rstMoves();
 
-   stopTimer();
-   watch.resetTimer();
-   timerText.innerText = watch.getTimeString();
-   moves = 0;
+  stopTimer();
+  watch.resetTimer();
+  timerText.innerText = watch.getTimeString();
+  moves = 0;
 
- }
- restart.addEventListener('click', resetGame);
+}
+restart.addEventListener('click', resetGame);
 
- //Start the game
- activeGame();
+//Start the game
+activeGame();

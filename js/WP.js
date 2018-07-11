@@ -1,4 +1,4 @@
-function shuffleDeck() {
+/*function shuffleDeck() {
   const cardsToShuffle = Array.from(document.querySelectorAll('.deck li'));
   const shuffledCards = shuffle(cardsToShuffle);
   for (card of shuffledCards) {
@@ -24,10 +24,20 @@ function hideStar() {
 }
 hideStar();
 hideStar();
+*/
+///////////////
 
 function toggleModal() {
   const modal = document.querySelector(.modal__background);
   modal.classList.toggle('hide');
 }
-toggleModal()//1st opens it
-toggleModal()//2nd closes it
+toggleModal(); //1st opens it
+toggleModal(); //2nd closes it
+
+///adding data to modal Stats
+function writeModalStats() {
+  const timeStat = document.querySelector('.modal_time');
+  const clockTime = document.querySelector('#timer').innerHTML;
+
+  timeStat.innerHTML = 'Time' = ${clockTime};
+}
