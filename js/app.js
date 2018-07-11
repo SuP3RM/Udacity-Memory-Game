@@ -108,23 +108,36 @@ shuffleDeck();
 //add moves
 function addMoves() {
   moves++;
-  const movesText = document.querySelector('.moves');
+  let movesText = document.querySelector('.moves');
+  movesText.innerHTML = moves;
+}
+function rstMoves() {
+  moves = 0;
+  let movesText = document.querySelector('.moves');
   movesText.innerHTML = moves;
 }
 
 // getting stars
 function checkScore() {
-  if (moves === 16 || moves === 24) {
+  if (moves === 1 || moves === 2) {
     hideStar();
   }
 }
   //Removing stars/hiding
 function hideStar() {
-  const starList = document.querySelectorAll('.stars li');
+  let starList = document.querySelectorAll('.stars li');
   for (star of starList) {
     if (star.style.display !== 'none') {
       star.style.display = 'none';
       break;
+    }
+  }
+}
+function undoHideStar() {
+  let starList = document.querySelectorAll('.stars li');
+  for (star of starList) {
+    if (star.style.display === 'none') {
+      star.style.display = 'initial';
     }
   }
 }
@@ -234,16 +247,20 @@ function stopTimer() {
    allCards.forEach(function(card){
      card.classList.remove('open', 'show');
      matchedCards.pop(card);
+     undoHideStar();
    });
 
    iClick = false;
 
    //shuffle cards
    shuffleDeck();
+   //reset moves
+   rstMoves();
 
    stopTimer();
    watch.resetTimer();
    timerText.innerText = watch.getTimeString();
+   moves = 0;
 
  }
  restart.addEventListener('click', resetGame);

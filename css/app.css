@@ -108,82 +108,52 @@ h1 {
     cursor: pointer;
 }
 
-.overlay {
-  position: fixed;
-  top: 25%;
-  left: 25%;
-  width: 50%;
-  background: #ffffff;
-  transition: opacity 500ms;
-  visibility: hidden;
-  opacity: 0;
-  align-items: center;
-  border-radius: 15px;
-  box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.35);
+.modal__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.438);
 }
 
-.overlay:target{
-  visibility: visible;
-  opacity: 1;
-}
-
-.popup {
-  border-radius: 15px;
-  background: #ffffff;
+.modal_body {
   position: relative;
-  transition: all 5s ease-in-out;
-  font-family: arial;
+  width: 400px;
+  top: 50%;
+  left: 50%;
+  background: #ffffff;
+  transform: translate(-50%, -70%);
+}
+
+.modal_heading {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  vertical-align: middle;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid blue;
+}
+
+.modal_close {
+  font-weight: bold;
+  font-size: 2rem
+}
+
+.modal_stats {
   display: flex;
   flex-direction: column;
-  padding-top: 12%;
-  padding-bottom: 12%;
-}
-
-.header {
   align-items: center;
-  font-family: arial;
-  font-size: 30px;
-  font-weight: bold;
-  -webkit-margin-before: 0;
+  padding: 1rem;
+  border-bottom: 1px solid blue;
 }
 
-.popup .final-rating,
-.message {
-  max-height: 30%;
-  overflow: auto;
-  text-align: center;
+.modal_buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
 }
 
-.final-move, .total-time {
-  color: #02ccba;
-}
-
-.show {
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-#star-rating li {
-  display: inline-block;
-  font-size: 40px;
-  color: #aa7ecd;
-}
-
-.play-again {
-  background-color: #02ccba;
-  font-size: 14px;
-  display: block;
-  margin: 0 auto;
-  width: 30%;
-  font-family: Arial;
-  color: black;
-  border-radius: 5px;
-  margin-top: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  font-weight: bold;
-  box-shadow: 3px 3px 3px 0px rgba(46, 61, 73, 0.5);
-  border-color: #02ccba;
+.modal_button {
+  width: 60px;
+  height: 30px;
 }
