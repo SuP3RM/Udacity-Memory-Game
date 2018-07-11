@@ -149,11 +149,15 @@ h1 {
 
 .modal_buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 2rem;
 }
 
 .modal_button {
   width: 60px;
   height: 30px;
+}
+
+.hide {
+  display: none;
 }

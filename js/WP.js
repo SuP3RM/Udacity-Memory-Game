@@ -25,6 +25,9 @@ function hideStar() {
 hideStar();
 hideStar();
 
-function toggleOverlay() {
-  const overLay = document.querySelector(.overl)
+function toggleModal() {
+  const modal = document.querySelector(.modal__background);
+  modal.classList.toggle('hide');
 }
+toggleModal()//1st opens it
+toggleModal()//2nd closes it
