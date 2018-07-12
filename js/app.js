@@ -3,7 +3,7 @@
 
 // Credit to Ryan Waite and his video - https://github.com/ryanwaite28/script-store/blob/master/js/stop-watch.js
 //clock/timer
-const StopWatch = function StopWatch() {
+let StopWatch = function StopWatch() {
   const self = this;
 
   let hours = 0;
@@ -94,41 +94,14 @@ let moves = 0;
 let restart = document.getElementById('restart-btn');
 let timerText = document.getElementsByClassName('timer');
 
-let iClick = false;
+let inClick = false;
 
-function writeModalStats() {
-  let timeStat = document.querySelector('.modal_time');
-  let clockTime = document.querySelector('.timer').innerHTML;
-  let movesStat = document.querySelector('.modal_moves');
-  let starsStat = document.querySelector('.modal_stars');
-  const stars = getStars();
-
-  timeStat.innerHTML = `Time = ${clockTime}`;
-  movesStat.innerHTML = `Moves = ${moves}`;
-  starsStat.innerHTML = `Stars = ${stars}`;
-}
-
-function getStars() {
-  stars = document.querySelectorAll('.stars li');
-  initialStarCount = 0;
-  for (star of stars) {
-    if (star.style.display !== 'none') {
-      initialStarCount++;
-    }
-  }
-  console.log(initialStarCount);
-  return initialStarCount;
-}
 // cancel button
-document.querySelector('.modal_cancel').addEventListener('click', ()=> {
-  toggleModal();
+document.querySelector('.modal_cancel').addEventListener('click', toggleModal();) //2nd closes modal
 });
 // replay button
-document.querySelector('.modal_replay').addEventListener('click', ()=> {
-  console.log('Replay');
+document.querySelector('.modal_replay').addEventListener('click', resetGame();)
 });
-
-////////////
 
 //shuffle function
 function shuffleDeck() {
@@ -155,7 +128,7 @@ function rstMoves() {
 
 // getting stars
 function checkScore() {
-  if (moves === 1 || moves === 2) {
+  if (moves === 2 || moves === 4) {
     hideStar();
   }
 }
@@ -218,16 +191,41 @@ function startTimer() {
 function stopTimer() {
   watch.stopTimer();
 }
-
+// displys time in modal
 function displayTime() {
-  console.log(timerText);
-  clock.innerHTML = time;
+  time = watch.getTimeString();
+  return time
 }
-
+// toggle modals when called
 function toggleModal() {
   let modal = document.querySelector('.modal__background');
   modal.classList.toggle('hide');
 }
+
+function getStars() {
+  stars = document.querySelectorAll('.stars li');
+  starCount = 0;
+  for (star of stars) {
+    if (star.style.display !== 'none') {
+      starCount++;
+    }
+  }
+  console.log(starCount);
+  return starCount;
+}
+
+function writeModalStats() {
+  let timeStat = document.querySelector('.modal_time');
+  let clockTime = displayTime();
+  let movesStat = document.querySelector('.modal_moves');
+  let starsStat = document.querySelector('.modal_stars');
+  const stars = getStars();
+
+  timeStat.innerHTML = `Time = ${clockTime}`;
+  starsStat.innerHTML = `Stars = ${stars}`;
+  movesStat.innerHTML = `Moves = ${moves}`;
+}
+
 
 ///adding data to modal Stats
 /*
@@ -248,8 +246,8 @@ let pause = false;
 function activeGame() {
   allCards.forEach(function(card) {
     card.addEventListener('click', function() {
-      if (iClick === false) {
-        iClick = true;
+      if (inClick === false) {
+        inClick = true;
         startTimer();
       }
 
@@ -269,6 +267,7 @@ function activeGame() {
         let lastFlippedClass = lastFlipped.children[0].className;
         let cardClass = card.children[0].className;
         if (lastFlippedClass === cardClass) {
+
           // If cards macth
           console.log('macth!');
           matchedCards.push(card);
@@ -277,6 +276,7 @@ function activeGame() {
           addMoves();
           checkScore();
         } else {
+
           // If cards macth
           console.log('no macth...');
           pause = true;
@@ -300,21 +300,22 @@ function resetGame() {
   allCards.forEach(function(card) {
     card.classList.remove('open', 'show');
     matchedCards.pop(card);
-    writeModalStats();
-    toggleModal();
-    undoHideStar();
   });
-  iClick = false;
+  toggleModal();
+  writeModalStats();
+
+  inClick = false;
   //shuffle cards
   shuffleDeck();
   //reset moves
   rstMoves();
+  undoHideStar();
 
   stopTimer();
   watch.resetTimer();
   timerText.innerText = watch.getTimeString();
-  moves = 0;
-  time = 0;
+
+
 
 }
 restart.addEventListener('click', resetGame);

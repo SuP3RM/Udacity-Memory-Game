@@ -24,7 +24,7 @@ function hideStar() {
 }
 hideStar();
 hideStar();
-*/
+
 ///////////////
 
 function toggleModal() {
@@ -41,3 +41,4 @@ function writeModalStats() {
 
   timeStat.innerHTML = 'Time' = ${clockTime};
 }
+*/
