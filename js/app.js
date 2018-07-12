@@ -92,18 +92,42 @@ let allCards = deck.querySelectorAll('li.card');
 let moves = 0;
 
 let restart = document.getElementById('restart-btn');
-let timerText = document.getElementById('timer');
+let timerText = document.getElementsByClassName('timer');
 
 let iClick = false;
 
-/////// Test /////////
-time = 121;
-moves = 16;
-checkScore();
-stopTimer();
-timerText.innerText = watch.getTimeString();
-writeModalStats();
-toggleModal();
+function writeModalStats() {
+  let timeStat = document.querySelector('.modal_time');
+  let clockTime = document.querySelector('.timer').innerHTML;
+  let movesStat = document.querySelector('.modal_moves');
+  let starsStat = document.querySelector('.modal_stars');
+  const stars = getStars();
+
+  timeStat.innerHTML = `Time = ${clockTime}`;
+  movesStat.innerHTML = `Moves = ${moves}`;
+  starsStat.innerHTML = `Stars = ${stars}`;
+}
+
+function getStars() {
+  stars = document.querySelectorAll('.stars li');
+  initialStarCount = 0;
+  for (star of stars) {
+    if (star.style.display !== 'none') {
+      initialStarCount++;
+    }
+  }
+  console.log(initialStarCount);
+  return initialStarCount;
+}
+// cancel button
+document.querySelector('.modal_cancel').addEventListener('click', ()=> {
+  toggleModal();
+});
+// replay button
+document.querySelector('.modal_replay').addEventListener('click', ()=> {
+  console.log('Replay');
+});
+
 ////////////
 
 //shuffle function
@@ -195,18 +219,17 @@ function stopTimer() {
   watch.stopTimer();
 }
 
+function displayTime() {
+  console.log(timerText);
+  clock.innerHTML = time;
+}
+
 function toggleModal() {
   let modal = document.querySelector('.modal__background');
   modal.classList.toggle('hide');
 }
 
 ///adding data to modal Stats
-function writeModalStats() {
-  const timeStat = document.querySelector('.modal_time');
-  const clockTime = document.querySelector('#timer').innerHTML;
-
-  timeStat.innerHTML = 'Time = ${timer}';
-}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -277,11 +300,11 @@ function resetGame() {
   allCards.forEach(function(card) {
     card.classList.remove('open', 'show');
     matchedCards.pop(card);
+    writeModalStats();
+    toggleModal();
     undoHideStar();
   });
-
   iClick = false;
-
   //shuffle cards
   shuffleDeck();
   //reset moves
@@ -291,6 +314,7 @@ function resetGame() {
   watch.resetTimer();
   timerText.innerText = watch.getTimeString();
   moves = 0;
+  time = 0;
 
 }
 restart.addEventListener('click', resetGame);
