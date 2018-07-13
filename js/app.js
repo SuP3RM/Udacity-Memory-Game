@@ -1,6 +1,4 @@
-// https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
-// https://codepen.io/lilaznbliss/pen/BVgLPe
-
+// Credit and refernces used as a helpful walkthroughs: https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
 // Credit to Ryan Waite and his video - https://github.com/ryanwaite28/script-store/blob/master/js/stop-watch.js
 //clock/timer
 let StopWatch = function StopWatch() {
@@ -80,11 +78,11 @@ let timerText = document.querySelector('.timer');
 let restart = document.getElementById('restart-btn');
 let inClick = false;
 let moves = 0;
-
-// cancel button
-document.querySelector('.modal_cancel').addEventListener('click', toggleModal);
-// replay button
-document.querySelector('.modal_replay').addEventListener('click', resetGame);
+let lastFlipped = null;
+let matchedCards = [];
+let matched = 0;
+const totalPairs = 8;
+let pause = false;
 
 //shuffle function
 function shuffleDeck() {
@@ -96,12 +94,18 @@ function shuffleDeck() {
 }
 shuffleDeck();
 
+// cancel button
+document.querySelector('.modal_exit').addEventListener('click', toggleModal);
+// replay button
+document.querySelector('.modal_replay').addEventListener('click', resetGame);
+
 //add moves function
 function addMoves() {
   moves++;
   let movesText = document.querySelector('.moves');
   movesText.innerHTML = moves;
 }
+
 // restart moves function
 function rstMoves() {
   moves = 0;
@@ -115,6 +119,7 @@ function checkScore() {
     hideStar();
   }
 }
+
 //Removing stars/hiding
 function hideStar() {
   let starList = document.querySelectorAll('.stars li');
@@ -125,6 +130,7 @@ function hideStar() {
     }
   }
 }
+
 // undo hiding stars after restarting game
 function undoHideStar() {
   let starList = document.querySelectorAll('.stars li');
@@ -143,12 +149,6 @@ function undoHideStar() {
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-/*
-// Used like so
-var arr = [2, 11, 37, 42];
-arr = shuffle(arr);
-console.log(arr);
-*/
 function shuffle(array) {
   var currentIndex = array.length,
     temporaryValue, randomIndex;
@@ -170,16 +170,18 @@ function shuffle(array) {
 // Timer stop
 // watch.stopTimer();
 
-// displys time in modal
-function displayTime() {
-  time = watch.getTimeString();
-  return time;
-}
 
+// Display time on screen
 function displayOnScreen() {
   watch.startTimer(function() {
     timerText.innerHTML = watch.getTimeString();
   });
+}
+
+// displys time in modal
+function displayTime() {
+  time = watch.getTimeString();
+  return time;
 }
 
 // toggle modals when called
@@ -188,6 +190,7 @@ function toggleModal() {
   modal.classList.toggle('hide');
 }
 
+// Get stars for Modal function
 function getStars() {
   stars = document.querySelectorAll('.stars li');
   starCount = 0;
@@ -200,6 +203,7 @@ function getStars() {
   return starCount;
 }
 
+// Generating game stats (Modal)
 function writeModalStats() {
   let timeStat = document.querySelector('.modal_time');
   let clockTime = displayTime();
@@ -213,13 +217,13 @@ function writeModalStats() {
 }
 
 // End game function
-function EndGame() {
+function endGame() {
   watch.stopTimer();
   writeModalStats();
   toggleModal();
+  console.log('End Game');
 }
 
-///adding data to modal Stats
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -230,12 +234,6 @@ function EndGame() {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-
-let lastFlipped = null;
-let matchedCards = [];
-let matched = 0;
-const totalPairs = 8;
-let pause = false;
 
 function activeGame() {
   allCards.forEach(function(card) {
@@ -268,15 +266,15 @@ function activeGame() {
           console.log('macth!');
           matchedCards.push(card);
           matchedCards.push(lastFlipped);
+          lastFlipped.classList.add('match');
+          card.classList.add('match');
           lastFlipped = null;
           addMoves();
           checkScore();
           matched++;
-
           if (matched === totalPairs) {
-            EndGame();
+            endGame();
           }
-
         } else {
 
           // If cards macth
@@ -300,24 +298,17 @@ function activeGame() {
 
 function resetGame() {
   allCards.forEach(function(card) {
-    card.classList.remove('open', 'show');
+    card.classList.remove('open', 'show', 'match');
     matchedCards.pop(card);
   });
-  toggleModal();
-  writeModalStats();
-
   inClick = false;
-  //shuffle cards
   shuffleDeck();
-  //reset moves
   rstMoves();
   undoHideStar();
-
   watch.stopTimer();
   watch.resetTimer();
   timerText.innerHTML = watch.getTimeString();
 }
-
 restart.addEventListener('click', resetGame);
 
 //Start the game
