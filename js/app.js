@@ -70,38 +70,22 @@ let StopWatch = function StopWatch() {
 }
 
 /*
- * Create a list that holds all of your cards and variables
+ * Create a list of all of your variables
  */
 
-var cards = [
-  'fa-diamond', 'fa-diamond',
-  'fa-paper-plane-o', 'fa-paper-plane-o',
-  'fa-anchor', 'fa-anchor',
-  'fa-bolt', 'fa-bolt',
-  'fa-cube', 'fa-cube',
-  'fa-bomb', 'fa-bomb',
-  'fa-bicycle', 'fa-bicycle',
-  'fa-leaf', 'fa-leaf'
-];
-
 let watch = new StopWatch();
-
 let deck = document.querySelector(".deck");
 let allCards = deck.querySelectorAll('li.card');
-
+let timerText = document.querySelector('.timer');
+let restart = document.getElementById('restart-btn');
+let inClick = false;
 let moves = 0;
 
-let restart = document.getElementById('restart-btn');
-let timerText = document.getElementsByClassName('timer');
-
-let inClick = false;
 
 // cancel button
-document.querySelector('.modal_cancel').addEventListener('click', toggleModal();) //2nd closes modal
-});
+document.querySelector('.modal_cancel').addEventListener('click', toggleModal);
 // replay button
-document.querySelector('.modal_replay').addEventListener('click', resetGame();)
-});
+document.querySelector('.modal_replay').addEventListener('click', resetGame);
 
 //shuffle function
 function shuffleDeck() {
@@ -128,7 +112,7 @@ function rstMoves() {
 
 // getting stars
 function checkScore() {
-  if (moves === 2 || moves === 4) {
+  if (moves === 16 || moves === 24) {
     hideStar();
   }
 }
@@ -181,21 +165,24 @@ function shuffle(array) {
   return array;
 }
 
-//Timer start
-function startTimer() {
-  watch.startTimer(function() {
-    timerText.innerText = watch.getTimeString();
-  });
-}
-//Timer stop
-function stopTimer() {
-  watch.stopTimer();
-}
+// Timer start
+// watch.startTimer();
+
+// Timer stop
+// watch.stopTimer();
+
 // displys time in modal
 function displayTime() {
   time = watch.getTimeString();
-  return time
+  return time;
 }
+
+function displayOnScreen() {
+  watch.startTimer(function() {
+    timerText.innerHTML = watch.getTimeString();
+  });
+}
+
 // toggle modals when called
 function toggleModal() {
   let modal = document.querySelector('.modal__background');
@@ -226,6 +213,12 @@ function writeModalStats() {
   movesStat.innerHTML = `Moves = ${moves}`;
 }
 
+// End game function
+function EndGame() {
+  watch.stopTimer();
+  writeModalStats();
+  toggleModal();
+}
 
 ///adding data to modal Stats
 /*
@@ -241,6 +234,8 @@ function writeModalStats() {
 
 let lastFlipped = null;
 let matchedCards = [];
+let matched = 0;
+const totalPairs = 8;
 let pause = false;
 
 function activeGame() {
@@ -248,7 +243,9 @@ function activeGame() {
     card.addEventListener('click', function() {
       if (inClick === false) {
         inClick = true;
-        startTimer();
+        displayOnScreen();
+        watch.startTimer();
+        displayTime();
       }
 
       if (pause === true) {
@@ -275,6 +272,12 @@ function activeGame() {
           lastFlipped = null;
           addMoves();
           checkScore();
+          matched++;
+
+          if (matched === totalPairs) {
+            EndGame();
+          }
+
         } else {
 
           // If cards macth
@@ -311,13 +314,11 @@ function resetGame() {
   rstMoves();
   undoHideStar();
 
-  stopTimer();
+  watch.stopTimer();
   watch.resetTimer();
-  timerText.innerText = watch.getTimeString();
-
-
-
+  timerText.innerHTML = watch.getTimeString();
 }
+
 restart.addEventListener('click', resetGame);
 
 //Start the game
