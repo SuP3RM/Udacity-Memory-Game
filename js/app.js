@@ -94,11 +94,6 @@ function shuffleDeck() {
 }
 shuffleDeck();
 
-// cancel button
-document.querySelector('.modal_exit').addEventListener('click', toggleModal);
-// replay button
-document.querySelector('.modal_replay').addEventListener('click', resetGame);
-
 //add moves function
 function addMoves() {
   moves++;
@@ -215,6 +210,11 @@ function writeModalStats() {
   starsStat.innerHTML = `Stars = ${stars}`;
   movesStat.innerHTML = `Moves = ${moves}`;
 }
+
+// cancel button
+document.querySelector('.modal_exit').addEventListener('click', toggleModal);
+// replay button
+document.querySelector('.modal_replay').addEventListener('click', resetGame);
 
 // End game function
 function endGame() {
