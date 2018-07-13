@@ -1,4 +1,4 @@
-// Credit and refernces used as a helpful walkthroughs: https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
+// Credit and references used as a helpful walkthroughs: https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
 // Credit to Ryan Waite and his video - https://github.com/ryanwaite28/script-store/blob/master/js/stop-watch.js
 //clock/timer
 let StopWatch = function StopWatch() {
@@ -246,13 +246,13 @@ function activeGame() {
       }
 
       if (pause === true) {
-        return
+        return;
       }
       if (lastFlipped === card) {
-        return
+        return;
       }
       if (matchedCards.includes(card)) {
-        return
+        return;
       }
 
       card.classList.add('open', 'show');
