@@ -17,6 +17,7 @@ body {
   background: #ffffff url('../img/geometry2.png');
   /* Background pattern from Subtle Patterns */
   font-family: 'Coda', cursive;
+  color: blue;
 }
 
 .container {
@@ -28,7 +29,9 @@ body {
 
 h1 {
   font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
+  font-weight: bold;
+  font-size: 2.5em;
+  color: blue;
 }
 
 /*
@@ -75,8 +78,9 @@ h1 {
 
 .deck .card.match {
   cursor: default;
-  background: #02ccba;
+  background: #aa7ecd;
   font-size: 33px;
+  pointer-events: none;
 }
 
 /*
@@ -94,6 +98,7 @@ h1 {
   padding: 0;
   display: inline-block;
   margin: 0 5px 0 0;
+  color: gold;
 }
 
 .score-panel .stars li {
@@ -122,6 +127,7 @@ h1 {
   left: 50%;
   background: #ffffff;
   transform: translate(-50%, -70%);
+  color: black;
 }
 
 .modal_heading {
@@ -129,7 +135,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   padding: 0 1.5rem;
-  border-bottom: 1px solid blue;
+  border-bottom: 1px solid gold;
 }
 
 .modal_cheer {
@@ -142,7 +148,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  border-bottom: 1px solid blue;
+  border-bottom: 1px solid gold;
 }
 
 .modal_buttons {

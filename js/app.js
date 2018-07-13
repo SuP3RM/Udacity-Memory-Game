@@ -81,7 +81,6 @@ let restart = document.getElementById('restart-btn');
 let inClick = false;
 let moves = 0;
 
-
 // cancel button
 document.querySelector('.modal_cancel').addEventListener('click', toggleModal);
 // replay button
