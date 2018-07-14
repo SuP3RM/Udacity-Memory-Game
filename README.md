@@ -24,7 +24,7 @@ https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css
 Credit to Elton Mesquita for animations in app.css:
 https://github.com/daneden/animate.css/blob/master/animate.css\
 
-animations used:
+CSS Animations used:
 @keyframes 'bounce'
 @keyframes 'rubberBand'
 
