@@ -1,20 +1,35 @@
-# Memory Game Project
+# Udacity Memory Game Project
 
 ## Table of Contents
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Instructions]
+* [Contributing]
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+To use/Download:
+Download the folder and open index.html in a browser.
+Example on Chrome: open new tab -> 'CTRL+O' -> choose "index.html" file
 
-To get started, open `js/app.js` and start building out the app's functionality
+To play game:
+Simple as click on any card on the screen and try to match as cards with little moves as possible with as fast as possible.
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
 
 ## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Stylesheets used to help make this application:
+https://fonts.googleapis.com/css?family=Coda
+https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+Credit to Elton Mesquita for animations in app.css:
+https://github.com/daneden/animate.css/blob/master/animate.css\
+
+animations used:
+@keyframes 'bounce'
+@keyframes 'rubberBand'
+
+Credit and references used as helpful walkthroughs by Matthew Cranford: https://www.diigo.com/outliner/fii42b/Udacity-Memory-Game-Project?key=dwj0y5x9cw
+
+Credit to Ryan Waite and his video on Facebook July 4th
+Ryan's clock/timer function use to help create timer functionality
+https://github.com/ryanwaite28/script-store/blob/master/js/stop-watch.js

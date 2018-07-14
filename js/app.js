@@ -76,6 +76,9 @@ let deck = document.querySelector(".deck");
 let allCards = deck.querySelectorAll('li.card');
 let timerText = document.querySelector('.timer');
 let restart = document.getElementById('restart-btn');
+let movesText = document.querySelector('.moves');
+let starList = document.querySelectorAll('.stars li');
+
 let inClick = false;
 let moves = 0;
 let lastFlipped = null;
@@ -97,14 +100,12 @@ shuffleDeck();
 //add moves function
 function addMoves() {
   moves++;
-  let movesText = document.querySelector('.moves');
   movesText.innerHTML = moves;
 }
 
 // restart moves function
 function rstMoves() {
   moves = 0;
-  let movesText = document.querySelector('.moves');
   movesText.innerHTML = moves;
 }
 
@@ -117,7 +118,6 @@ function checkScore() {
 
 //Removing stars/hiding
 function hideStar() {
-  let starList = document.querySelectorAll('.stars li');
   for (star of starList) {
     if (star.style.display !== 'none') {
       star.style.display = 'none';
@@ -300,9 +300,11 @@ function resetGame() {
   allCards.forEach(function(card) {
     card.classList.remove('open', 'show', 'match');
     matchedCards.pop(card);
+    matched = 0;
   });
-  inClick = false;
   shuffleDeck();
+  lastFlipped = null;
+  inClick = false;
   rstMoves();
   undoHideStar();
   watch.stopTimer();
